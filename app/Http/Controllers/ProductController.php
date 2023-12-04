@@ -22,11 +22,6 @@ class ProductController extends Controller
         return response()->json($productos);
     }
 
-    public function create()
-    {
-
-    }
-
     public function store(Request $request)
     {
         $product = new Product();
@@ -52,12 +47,8 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    public function edit(string $id)
-    {
-
-    }
-
-    public function update(Request $request, Product $product)
+  
+    public function update(Request $request, $id)
     {
         $product = Product::find($id);
         $validator = Validator::make($request->all(), $product->getRules(), $product->getMessages(), $product->getNames());
