@@ -59,6 +59,9 @@ git clone https://github.com/severloth/mailup-api-rest
 
 <h2>Migra la base de datos para obtener las tablas necesarias:</h2>
 	php artisan migrate (o php artisan migrate:refresh)
+
+ <h2>Ejecuta el SEED para crear los datos por defecto como los productos y la API Key</h2>
+     php artisan db:seed 
 	
 <h2>Inicializa el servidor</h2>
 	php artisan serve
