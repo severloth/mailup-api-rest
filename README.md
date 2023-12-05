@@ -1,66 +1,188 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>DOCUMENTACIÓN API DE PRODUCTOS</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta API proporciona un conjunto de endpoints HTTP para crear, leer, actualizar y eliminar productos. Los productos se representan como objetos JSON con los siguientes campos:
 
-## About Laravel
+id: El identificador del producto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+name: El nombre del producto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+description: La descripción del producto
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+image: La imagen del producto
 
-## Learning Laravel
+brand: La marca del producto
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+price: El precio del producto
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+price_sale: El precio de descuento del producto
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+category: La categoría del producto
 
-## Laravel Sponsors
+stock: El stock del producto
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+<h2>Los endpoints utilizados se crearon mediante el Resource que ofrece laravel para no tener que escribir las rutas por cada método HTTP.</h2>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    Route::middleware('api.key')->group(function () {
+   
+    Route::resource('/products', ProductController::class);
+   
+    });
 
-## Contributing
+Se utilizó el endpoint /products en plural por convención del API REST en todo el mundo. Debido a que hace referencia a un conjunto de datos y no a uno solo.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Las rutas que crea el resource son las siguientes:
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<h2>Requisitos</h2>
+
+Para usar esta API, necesitarás una API Key. Puedes obtener una API Key mediante el endpoint:
+
+GET http://127.0.0.1:8000/api/api-key (utilizando servidor XAMPP)
+
+La API Key se regenera automáticamente cada 1 minuto mediante un comando automatizado en el Schedule. Este comando genera un nuevo número aleatorio entre 0 y 9 en el último dígito de la API Key y lo reemplaza en la base de datos.
+
+
+<h2>Instalación</h2>
+
+Para instalar la API, sigue estos pasos:
+
+<h2>Clona el repositorio de GitHub:</h2>
+git clone https://github.com/severloth/mailup-api-rest
+
+<h2>Instala las dependencias:</h2>
+	composer install
+
+<h2>Migra la base de datos para obtener las tablas necesarias:</h2>
+	php artisan migrate (o php artisan migrate:refresh)
+	
+<h2>Inicializa el servidor</h2>
+	php artisan serve
+
+<h2>Ejecuta el schedule para que realice la regeneración de la API KEY cada un minuto (no es una práctica cómoda la regeneración de la API KEY cada minuto, se hizo solamente para que el evaluador no tenga que esperar)</h2>
+	php artisan schedule:work
+
+
+
+Siguiendo estos pasos, ya tienes funcionando la API de producto.
+
+
+<h1>Uso</h1>
+
+Para usar esta API, puedes utilizar un cliente HTTP como POSTMAN.
+El Modelo Producto realiza validaciones mediante la librería VALIDATOR.
+
+Para crear correctamente un producto se deben respetar las reglas del modelo Producto.
+
+
+<h2>Reglas Producto:</h2>
+
+'name' => 'required|string|max:100',
+        'description' => 'required|string|max:1000',
+        'image' => 'required|string|max:100',
+        'brand' => 'required|string|max:100',
+        'price' => 'required|numeric',
+        'price_sale' => 'required|numeric',
+        'category' => 'required|string|max:100',
+        'stock' => 'required|integer',
+
+
+
+<h1>Ejemplos:</h1>
+
+<h2>Crear un producto</h2>
+
+POST http://172.0.0.1:8000/api/products
+Content-Type: application/json
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+{
+	“name”: “Producto”,
+	“description”: “Un producto nuevo”,
+	“image”: “https://imagen-de-prueba.com/image”
+	“brand”: “Marca nueva”,
+“price”: 100,
+	“price_sale”: 99,
+“category”: “Producto de indumentaria”,
+	“stock”: 10
+	
+}
+
+<h2>Obtener todos los productos</h2>
+
+GET http://172.0.0.1:8000/api/products
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+
+
+<h2>Obtener un producto por id</h2>
+GET http://172.0.0.1:8000/api/products/{id}
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+
+
+<h2>Obtener un producto por nombre</h2>
+GET http://172.0.0.1:8000/api/products?name=Producto
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+
+
+<h2>Obtener una página en especifico (los productos de paginan de a 10)</h2>
+GET http://172.0.0.1:8000/api/products?page=2
+Authorization: Bearer [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+
+<h2>Actualizar un producto en especifico</h2>
+PUT http://172.0.0.1:8000/api/products/{id}
+{
+	“name”: “Producto Actualizado”,
+	“description”: “Un producto nuevo actualizado”,
+	“image”: “https://imagen-de-prueba.com/image”
+	“brand”: “Marca nueva actualizada”,
+“price”: 1500,
+	“price_sale”: 1499,
+“category”: “Producto de indumentaria actualizado”,
+	“stock”: 11
+	
+}
+
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+
+<h2>Eliminar un producto</h2>
+DELETE http://172.0.0.1:8000/api/products/{id}
+Authorization:
+Type: API Key
+Key: api_key
+Value: [api-key-actual] (obtenida por el endpoint mencionado anteriormente)
+Add to: Header
+
+
+
+<h1>ERRORES</h1>
+Si la solicitud no es válida, la API devolverá un error con el siguiente formato:
+
+{
+	“error”: “El nombre del producto es obligatorio”,
+	“status_code”: 400
+}
+
+
