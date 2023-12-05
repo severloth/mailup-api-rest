@@ -37,6 +37,63 @@ Las rutas que crea el resource son las siguientes:
 
 
 
+<h2>Instalación</h2>
+
+Para instalar la API, sigue estos pasos:
+
+<h2>Clona el repositorio de GitHub:</h2>
+
+    git clone https://github.com/severloth/mailup-api-rest
+
+
+<h2>Acceder a la carpeta del proyecto</h2>
+
+    cd mailup-api-rest
+
+
+<h2>Instala las dependencias:</h2>
+	
+    composer install
+
+
+<h2>Copiar el Archivo de Configuración .env</h2>
+Laravel utiliza un archivo de configuración .env para almacenar variables de entorno y configuraciones específicas del entorno. Podés copiar el archivo de ejemplo .env.example a un nuevo archivo .env:
+
+
+    cp .env.example .env
+
+
+<h2>Generar una Clave de Aplicación</h2>
+Laravel utiliza una clave de aplicación para cifrar los datos. Ejecutá el siguiente comando para generar una nueva clave de aplicación:
+
+
+    php artisan key:generate
+
+<h2>Migra la base de datos para obtener las tablas necesarias:</h2>
+
+    php artisan migrate (o php artisan migrate:refresh)
+
+
+ <h2>Ejecuta el SEED para crear los datos por defecto como los productos y la API Key</h2>
+  
+     php artisan db:seed
+ 
+	
+<h2>Inicializa el servidor</h2>
+
+     php artisan serve
+
+
+<h2>Ejecuta el schedule para que realice la regeneración de la API KEY cada un minuto (no es una práctica cómoda la regeneración de la API KEY cada minuto, se hizo solamente para que el evaluador no tenga que esperar)</h2>
+
+     php artisan schedule:work
+
+
+
+
+Siguiendo estos pasos, ya tienes funcionando la API de producto.
+
+
 
 <h2>Requisitos</h2>
 
@@ -47,31 +104,6 @@ GET http://127.0.0.1:8000/api/api-key (utilizando servidor XAMPP)
 La API Key se regenera automáticamente cada 1 minuto mediante un comando automatizado en el Schedule. Este comando genera un nuevo número aleatorio entre 0 y 9 en el último dígito de la API Key y lo reemplaza en la base de datos.
 
 
-<h2>Instalación</h2>
-
-Para instalar la API, sigue estos pasos:
-
-<h2>Clona el repositorio de GitHub:</h2>
-git clone https://github.com/severloth/mailup-api-rest
-
-<h2>Instala las dependencias:</h2>
-	composer install
-
-<h2>Migra la base de datos para obtener las tablas necesarias:</h2>
-	php artisan migrate (o php artisan migrate:refresh)
-
- <h2>Ejecuta el SEED para crear los datos por defecto como los productos y la API Key</h2>
-     php artisan db:seed 
-	
-<h2>Inicializa el servidor</h2>
-	php artisan serve
-
-<h2>Ejecuta el schedule para que realice la regeneración de la API KEY cada un minuto (no es una práctica cómoda la regeneración de la API KEY cada minuto, se hizo solamente para que el evaluador no tenga que esperar)</h2>
-	php artisan schedule:work
-
-
-
-Siguiendo estos pasos, ya tienes funcionando la API de producto.
 
 
 <h1>Uso</h1>
